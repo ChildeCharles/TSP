@@ -76,8 +76,6 @@ class AutoGeneration(QThread):
                 self.logic.pop.next_generation()
                 self.logic.iterator += 1
                 self.logic.main_window.iteration_number_label.setText("Iteracja numer: " + str(self.logic.iterator))
-                print(self.pop.current_min_distance)
-                print(self.pop.current_min_distance_value)
                 self.main_window.history_plot.draw_history(self.pop.current_min_distance, self.pop.current_max_distance, self.pop.current_average_distance)
                 self.main_window.min_tour_plot.draw_map(self.pop.current_min_distance_value)
                 self.main_window.max_tour_plot.draw_map(self.pop.current_max_distance_value)

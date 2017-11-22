@@ -4,7 +4,7 @@ Created on Tue Oct 17 19:01:33 2017
 
 @author: Charles
 """
-from PyQt5 import QtCore
+from PyQt5 import QtCore, Qt
 from PyQt5.QtCore import QRect
 from PyQt5.QtWidgets import QWidget, QPushButton, QLabel, QSpinBox, QDoubleSpinBox, QCheckBox, QVBoxLayout, QFrame, \
     QDesktopWidget, QHBoxLayout, QMainWindow, QLayout, QGridLayout
@@ -79,9 +79,11 @@ class UIMainWindow(QWidget):
         self.reset_button = QPushButton(self)
         self.reset_button.clicked.connect(self.logic.reset_buttonClicked)
         self.reset_button.setText("Reset")
+        self.reset_button.setMaximumWidth(150)
 
         self.size_label = QLabel(self)
-        self.size_label.setText("Populacja: ")
+        self.size_label.setText("Liczebność populacji: ")
+        self.size_label.setMaximumWidth(150)
 
         self.iterations_label = QLabel(self)
         self.iterations_label.setText("Iteracje: ")
@@ -105,28 +107,22 @@ class UIMainWindow(QWidget):
         self.frame.setFrameShape(QFrame.Box)
         self.frame.setFrameShadow(QFrame.Raised)
         self.frame.setObjectName("frame")
-        self.frame.setMaximumSize(self.dpi_size, self.dpi_size)
+        self.frame.setFixedSize(self.dpi_size, self.dpi_size)
         self.history_plot = PlotCanvas(self.frame, width=self.dpi_size / 100,height=self.dpi_size / 100)
 
         self.frame2 = QFrame(self)
         self.frame2.setFrameShape(QFrame.Box)
         self.frame2.setFrameShadow(QFrame.Raised)
         self.frame2.setObjectName("frame")
-        self.frame2.setMaximumSize(self.dpi_size, self.dpi_size)
+        self.frame2.setFixedSize(self.dpi_size, self.dpi_size)
         self.min_tour_plot = PlotCanvas(self.frame2, width=self.dpi_size / 100, height=self.dpi_size / 100)
 
         self.frame3 = QFrame(self)
         self.frame3.setFrameShape(QFrame.Box)
         self.frame3.setFrameShadow(QFrame.Raised)
         self.frame3.setObjectName("frame")
-        self.frame3.setMaximumSize(self.dpi_size, self.dpi_size)
+        self.frame3.setFixedSize(self.dpi_size, self.dpi_size)
         self.max_tour_plot = PlotCanvas(self.frame3, width=self.dpi_size / 100, height=self.dpi_size / 100)
-
-
-
-
-        self.button = QPushButton(self)
-        self.button.setText("Tu jestemXXX")
 
         self.mainLayout = QHBoxLayout(self)
         self.leftLayout = QVBoxLayout(self)
@@ -148,6 +144,7 @@ class UIMainWindow(QWidget):
 
 
        # self.upperLeftLayout.setColumnStretch(2,5)
+        self.upperLeftLayout.setSpacing(15)
         self.upperLeftLayout.addWidget(self.size_label, 0, 0)
         self.upperLeftLayout.addWidget(self.mutation_label, 1, 0)
         self.upperLeftLayout.addWidget(self.apply_button, 2, 0)
@@ -159,7 +156,6 @@ class UIMainWindow(QWidget):
         self.upperLeftLayout.addWidget(self.reset_button, 2, 1)
         self.upperLeftLayout.addWidget(self.iterations_box, 3, 1)
         self.upperLeftLayout.addWidget(self.stop_button, 4, 1)
-
         self.lowerLeftLayout.addWidget(QLabel(""))
 
         self.middleLayout.addWidget(self.min_map_label)
@@ -169,8 +165,7 @@ class UIMainWindow(QWidget):
 
         self.upperRightLayout.addWidget(self.iteration_number_label)
         self.upperRightLayout.addWidget(self.frame)
-
-        self.lowerRightLayout.addWidget(QLabel(""))
+        #self.lowerRightLayout.addWidget(QLabel(""))
 
 
 
