@@ -5,7 +5,6 @@ Created on Tue Oct 17 19:01:33 2017
 @author: Charles
 """
 from PyQt5.QtCore import QThread
-from matplotlib import pyplot
 
 from Population import Population
 class ApplicationLogic(object):
@@ -28,9 +27,11 @@ class ApplicationLogic(object):
 
     def clear(self):
         self.main_window.history_plot.clearData()
+        self.main_window.min_tour_plot.clearData()
+        self.main_window.max_tour_plot.clearData()
+        self.main_window.globally_min_tour_plot.clearData()
         self.iterator = 0
         self.main_window.iteration_number_label.setText("Iteracja numer: " + str(self.iterator))
-        print("Wyczyść mię")
     def apply_buttonClicked(self):
         size = int(self.main_window.size_box.text())
         if size <= 0:
@@ -73,13 +74,16 @@ class AutoGeneration(QThread):
     def run(self):
         while(True):
             if self.isRunning:
-                self.wait(25)
                 self.logic.pop.next_generation()
                 self.logic.iterator += 1
                 self.logic.main_window.iteration_number_label.setText("Iteracja numer: " + str(self.logic.iterator))
+                #if self.logic.iterator % 10 == 0:
+                #    print(str(self.logic.iterator)+" & "+str(round(self.pop.current_min_distance,2))+" & "+str(round(self.pop.current_max_distance,2))+" & "+str(round(self.pop.current_average_distance,2))+" & "+str(round(self.pop.globally_min_distance,2))+"\\\\")
+                #    print("\hline")
                 self.main_window.history_plot.draw_history(self.pop.current_min_distance, self.pop.current_max_distance, self.pop.current_average_distance)
                 self.main_window.min_tour_plot.draw_map(self.pop.current_min_distance_value)
                 self.main_window.max_tour_plot.draw_map(self.pop.current_max_distance_value)
+                self.main_window.globally_min_tour_plot.draw_map(self.pop.globally_min_distance_value)
                 self.counter += 1
                 if self.counter == self.logic.iterations:
                     self.counter = 0

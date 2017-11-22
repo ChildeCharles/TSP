@@ -4,9 +4,7 @@ Created on Mon Oct  9 23:29:26 2017
 
 @author: Charles
 """
-import random, copy, math
-
-from sympy import Matrix
+import random, copy
 
 
 
@@ -25,6 +23,8 @@ class Population(object):
         # Statistics
         self.highest_distance = self.simple_count_distance(self.population[0])
         self.highest_distance_value = self.population[0]
+        self.globally_min_distance = self.simple_count_distance(self.population[0])
+        self.globally_min_distance_value = self.population[0]
         self.current_min_distance = self.simple_count_distance(self.population[0])
         self.current_min_distance_value = self.population[0]
         self.current_max_distance = self.simple_count_distance(self.population[0])
@@ -137,6 +137,9 @@ class Population(object):
                 self.current_min_distance = dist
                 self.current_min_distance_value = self.population[i]
             self.current_average_distance = all_distances / self.size
+        if(self.current_min_distance < self.globally_min_distance):
+            self.globally_min_distance = self.current_min_distance
+            self.globally_min_distance_value = self.current_min_distance_value
         return fitness
 
     def reproduct(self):

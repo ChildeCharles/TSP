@@ -4,12 +4,10 @@ Created on Tue Oct 17 19:01:33 2017
 
 @author: Charles
 """
-from PyQt5 import QtCore, Qt
-from PyQt5.QtCore import QRect
+from PyQt5 import QtCore
 from PyQt5.QtWidgets import QWidget, QPushButton, QLabel, QSpinBox, QDoubleSpinBox, QCheckBox, QVBoxLayout, QFrame, \
-    QDesktopWidget, QHBoxLayout, QMainWindow, QLayout, QGridLayout
-from matplotlib import figure as Figure
-from matplotlib.backends.backend_qt5agg import FigureCanvasQTAgg as FigureCanvas
+    QDesktopWidget, QHBoxLayout, QGridLayout
+
 from ApplicationLogic import *
 from Plots import *
 
@@ -53,6 +51,7 @@ class UIMainWindow(QWidget):
         self.size_box.setValue(20)
 
         self.iterations_box = QSpinBox(self)
+        self.iterations_box.setMaximum(1000)
         self.iterations_box.setMinimum(0)
         self.iterations_box.setSingleStep(1)
         self.iterations_box.setValue(1)
@@ -96,12 +95,16 @@ class UIMainWindow(QWidget):
         self.iteration_number_label.setMaximumHeight(20)
 
         self.min_map_label = QLabel(self)
-        self.min_map_label.setText("Trasa o najmniejszej długości:")
+        self.min_map_label.setText("Najkrótsza trasa w obecnej populacji:")
         self.min_map_label.setMaximumHeight(20)
 
         self.max_map_label = QLabel(self)
-        self.max_map_label.setText("Trasa o największej długości:")
+        self.max_map_label.setText("Najdłuższa trasa w obecnej populacji:")
         self.max_map_label.setMaximumHeight(20)
+
+        self.globally_min_tour_label = QLabel(self)
+        self.globally_min_tour_label.setText("Globalnie najktórsza trasa:")
+        self.globally_min_tour_label.setMaximumHeight(20)
 
         self.frame = QFrame(self)
         self.frame.setFrameShape(QFrame.Box)
@@ -123,6 +126,13 @@ class UIMainWindow(QWidget):
         self.frame3.setObjectName("frame")
         self.frame3.setFixedSize(self.dpi_size, self.dpi_size)
         self.max_tour_plot = PlotCanvas(self.frame3, width=self.dpi_size / 100, height=self.dpi_size / 100)
+
+        self.frame4 = QFrame(self)
+        self.frame4.setFrameShape(QFrame.Box)
+        self.frame4.setFrameShadow(QFrame.Raised)
+        self.frame4.setObjectName("frame")
+        self.frame4.setFixedSize(self.dpi_size, self.dpi_size)
+        self.globally_min_tour_plot = PlotCanvas(self.frame4, width=self.dpi_size / 100, height=self.dpi_size / 100)
 
         self.mainLayout = QHBoxLayout(self)
         self.leftLayout = QVBoxLayout(self)
@@ -156,7 +166,8 @@ class UIMainWindow(QWidget):
         self.upperLeftLayout.addWidget(self.reset_button, 2, 1)
         self.upperLeftLayout.addWidget(self.iterations_box, 3, 1)
         self.upperLeftLayout.addWidget(self.stop_button, 4, 1)
-        self.lowerLeftLayout.addWidget(QLabel(""))
+        self.lowerLeftLayout.addWidget(self.globally_min_tour_label)
+        self.lowerLeftLayout.addWidget(self.globally_min_tour_plot)
 
         self.middleLayout.addWidget(self.min_map_label)
         self.middleLayout.addWidget(self.min_tour_plot)

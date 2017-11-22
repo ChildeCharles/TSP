@@ -5,12 +5,12 @@ Created on Tue Oct 17 19:01:33 2017
 @author: Charles
 """
 
-from Population import Population
-from PyQt5.QtWidgets import QMainWindow, QApplication, QGraphicsScene
-from win32api import GetSystemMetrics
+
+from PyQt5.QtWidgets import QApplication
+
 from Window import UIMainWindow
 import sys
-import ctypes
+
 
 def main():
     app = QApplication(sys.argv)
