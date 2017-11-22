@@ -73,6 +73,7 @@ class AutoGeneration(QThread):
     def run(self):
         while(True):
             if self.isRunning:
+                self.wait(25)
                 self.logic.pop.next_generation()
                 self.logic.iterator += 1
                 self.logic.main_window.iteration_number_label.setText("Iteracja numer: " + str(self.logic.iterator))
